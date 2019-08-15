@@ -30,8 +30,8 @@
         <% if recipe_retail_prices[0] == "Test" %>
           Check Recipe Retail Prices
         <% else %>
-          <% recipe_retail_prices = number_with_precision(recipe_retail_prices.sum, precision: 2) %>
-          $<%= recipe_retail_prices %>
+          <% recipe_retail_prices_var = number_with_precision(recipe_retail_prices.sum, precision: 2) %>
+          $<%= recipe_retail_prices_var %>
         <% end %>
       </h4>
 
@@ -43,14 +43,32 @@
 
       <% else %>
         <h4 id="profit">
-          Profit: $<%= number_with_precision(recipe_retail_prices.to_f - @wedding.total_price, precision: 2) %>
+          Profit: $<%= number_with_precision(recipe_retail_prices_var.to_f - @wedding.total_price, precision: 2) %>
+        </h4>
+
+        <h4 id="goods_cost">
+          <% total_goods_cost = [] %>
+          <% @wedding.recipes.each do |recipe| %>
+            <% total_goods_cost.push(recipe.hard_goods.sum(:hard_good_total_price).to_f * recipe.recipe_quantity) %>
+          <% end %>
+          <% hard_goods_total_cost_var = number_with_precision(total_goods_cost.sum, precision: 2) %>
+
+          Gds. Cost: $<%= hard_goods_total_cost_var %>
+        </h4>
+
+        <h4 id="flowers_cost">
+          <% total_flowers_cost = [] %>
+          <% @wedding.recipes.each do |recipe| %>
+            <% total_flowers_cost.push(recipe.flowers.sum(:flower_total_price).to_f * recipe.recipe_quantity) %>
+          <% end %>
+          <% flowers_total_cost_var = number_with_precision(total_flowers_cost.sum, precision: 2) %>
+
+          Fl. Cost: $<%= flowers_total_cost_var %>
         </h4>
 
         <h4 id="markup">
-          <% if (((recipe_retail_prices.to_f - @wedding.total_price) / @wedding.total_price) * 100).nan? || (((recipe_retail_prices.to_f - @wedding.total_price) / @wedding.total_price) * 100).infinite? then %>
-
-          <% else %>
-            Markup: <%= number_with_precision(recipe_retail_prices.to_f / @wedding.total_price, precision: 2) %>
+          <% if (recipe_retail_prices_var.to_f != 0) %>
+            Markup: <%= number_with_precision((recipe_retail_prices_var.to_f - hard_goods_total_cost_var.to_f)/flowers_total_cost_var.to_f, precision: 2) %> 
           <% end %>
         </h4>
       <% end %>

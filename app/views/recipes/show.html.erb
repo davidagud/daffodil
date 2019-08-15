@@ -26,11 +26,11 @@
         <h4 id="total-price">Cost: $<%= number_with_precision(recipe.recipe_total_price, precision: 2) %></h4>
       <% else %>
         <h4 id="total-price">Retail: $<%= number_with_precision(recipe.retail_price, precision: 2) %></h4>
-        <h4 id="total-price">Gds. Cost: $<%= number_with_precision(recipe.hard_goods.sum(:hard_good_total_price).to_f, precision: 2)%></h4>
-        <h4 id="total-price">Fl. Cost: $<%= number_with_precision(recipe.flowers.sum(:flower_total_price).to_f, precision: 2)%></h4>
+        <h4 id="total-price">Gds. Cost: $<%= hard_goods_total_cost_var = number_with_precision(recipe.hard_goods.sum(:hard_good_total_price).to_f, precision: 2)%></h4>
+        <h4 id="total-price">Fl. Cost: $<%= flowers_total_cost_var = number_with_precision(recipe.flowers.sum(:flower_total_price).to_f, precision: 2)%></h4>
         <h4 id="markup">Markup:
           <% if recipe.recipe_total_price == 0 then %> Cost is $0 <% else %>
-            <%= number_with_precision((recipe.retail_price* recipe.recipe_quantity)/recipe.recipe_total_price, precision: 2) %>
+            <%= number_with_precision((recipe.retail_price - hard_goods_total_cost_var.to_f)/flowers_total_cost_var.to_f, precision: 2) %>
           <% end %>
         </h4>
       <% end %>
