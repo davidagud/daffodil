@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    if (User.all.count > 1) 
+    if User.all.count > 1
       @user = User.find(params[:id])
 
       @user.destroy
