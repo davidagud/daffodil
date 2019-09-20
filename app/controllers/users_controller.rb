@@ -18,7 +18,9 @@ class UsersController < ApplicationController
       flash[:danger] = "The name '" + @user.username.capitalize + "' has been taken or password does not meet requirements."
       redirect_to new_user_path
     else
-      session[:user_id] = @user.id
+      if !session[:user_id]
+        session[:user_id] = @user.id
+      end
       redirect_to users_path
     end
   end
@@ -43,17 +45,14 @@ class UsersController < ApplicationController
   def destroy
     if User.all.count > 1
       flash[:danger] = "There are more than 1 user"
+      @user = User.find(params[:id])
+
+      @user.destroy
+      redirect_to users_path
     else
       flash[:danger] = "Cannot delete only user."
+      redirect_to edit_user_path(@user)
     end
-    @user = User.find(params[:id])
-
-    @user.destroy
-    redirect_to users_path
-    # else 
-    #   flash[:danger] = "Cannot delete only user."
-    #   redirect_to edit_user_path(@user)
-    # end
   end
 
   private
