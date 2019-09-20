@@ -41,10 +41,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
+    if (User.all.count > 1) 
+      @user = User.find(params[:id])
 
-    @user.destroy
-    redirect_to users_path
+      @user.destroy
+      redirect_to users_path
+    else 
+      flash[:danger] = "Cannot delete only user."
+      redirect_to edit_user_path(@user)
+    end
   end
 
   private
