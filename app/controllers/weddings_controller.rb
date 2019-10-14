@@ -90,22 +90,22 @@ class WeddingsController < ApplicationController
     redirect_to wedding_path(@wedding)
   end
 
-  def update_all
-    @wedding = Wedding.find(params[:wedding_id])
-    @masterflowers = Masterflower.all
+  # def update_all
+  #   @wedding = Wedding.find(params[:wedding_id])
+  #   @masterflowers = Masterflower.all
 
-    @wedding.flowers.each do |flower|
-      @flower = flower
-      if find_name(@flower.flower_name).empty?
-        @flower.update(:flower_price => 0)
-      else
-        @flower.update(:flower_price => flower_price)
-        @flower.update(:flower_vendor => flower_vendor)
-      end
-    end
+  #   @wedding.flowers.each do |flower|
+  #     @flower = flower
+  #     if find_name(@flower.flower_name).empty?
+  #       @flower.update(:flower_price => 0)
+  #     else
+  #       @flower.update(:flower_price => flower_price)
+  #       @flower.update(:flower_vendor => flower_vendor)
+  #     end
+  #   end
 
-    redirect_to wedding_path(@wedding)
-  end
+  #   redirect_to wedding_path(@wedding)
+  # end
 
   def update_all_weddings
     @masterflowers = Masterflower.all
@@ -124,7 +124,7 @@ class WeddingsController < ApplicationController
       name = masterflower.masterflower_name
       price = masterflower.masterflower_price
       flowers_to_change = @flowers.where("flower_name ilike ?", "#{name} - #{vendor}")
-      flowers_to_change.update(:flower_vendor => vendor, :flower_price => price)
+      flowers_to_change.update_all(:flower_vendor => vendor, :flower_price => price)
     end
 
     # @weddings = Wedding.all
