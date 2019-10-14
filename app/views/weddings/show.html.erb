@@ -115,7 +115,7 @@
       <% @recipes = @wedding.recipes %>
       <%= render "recipes/recipes" %>
       <div class="row">
-        <%= button_to "Update All", weddings_update_all_path(:wedding_id => @wedding.id), class: "btn btn-secondary", id: "update-button" %>
+        <%= button_to "Update All", weddings_update_all_individual_path(:wedding_id => @wedding.id), class: "btn btn-secondary", id: "update-button" %>
         <%= button_to "Copy", weddings_copy_wedding_path(:wedding_id => @wedding.id), class: "btn btn-secondary", id: "copy-wedding-button" %>
         <%= button_to "Email", weddings_send_wedding_email_path(:wedding_id => @wedding.id), class: "btn btn-secondary", id: "send-wedding-email-button" %>
         <%= link_to "Export", wedding_path(format: "xlsx"), class: "btn btn-secondary", id: "send-wedding-email-button"  %>

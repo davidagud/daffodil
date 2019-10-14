@@ -90,27 +90,29 @@ class WeddingsController < ApplicationController
     redirect_to wedding_path(@wedding)
   end
 
-  # def update_all
-  #   @wedding = Wedding.find(params[:wedding_id])
-  #   @masterflowers = Masterflower.all
+  def update_all_individual
+    # TODO: Clean this up, make more similar to update_all_weddings
+    @wedding = Wedding.find(params[:wedding_id])
+    @masterflowers = Masterflower.all
 
-  #   @wedding.flowers.each do |flower|
-  #     @flower = flower
-  #     if find_name(@flower.flower_name).empty?
-  #       @flower.update(:flower_price => 0)
-  #     else
-  #       @flower.update(:flower_price => flower_price)
-  #       @flower.update(:flower_vendor => flower_vendor)
-  #     end
-  #   end
+    @wedding.flowers.each do |flower|
+      @flower = flower
+      if find_name(@flower.flower_name).empty?
+        @flower.update(:flower_price => 0)
+      else
+        @flower.update(:flower_price => flower_price)
+        @flower.update(:flower_vendor => flower_vendor)
+      end
+    end
 
-  #   redirect_to wedding_path(@wedding)
-  # end
+    redirect_to wedding_path(@wedding)
+  end
 
   def update_all_weddings
     @masterflowers = Masterflower.all
     @flowers = Flower.all
 
+    # TODO: Turn this into an update_all query
     @flowers.each do |flower|
       if find_name(flower.flower_name).empty?
         flower.update(:flower_price => 0)
@@ -174,13 +176,13 @@ class WeddingsController < ApplicationController
       params.require(:wedding).permit(:wedding_name, :wedding_date, :completed, :total_price)
     end
 
-    # def flower_price
-    #   @flower.flower_price = @masterflowers.find_price(@flower.flower_name)
-    # end
+    def flower_price
+      @flower.flower_price = @masterflowers.find_price(@flower.flower_name)
+    end
 
-    # def flower_vendor
-    #   @flower.flower_vendor = @masterflowers.find_vendor(@flower.flower_name)
-    # end
+    def flower_vendor
+      @flower.flower_vendor = @masterflowers.find_vendor(@flower.flower_name)
+    end
 
     def flower_total_price
       @flower.flower_total_price = @flower.quantity * @flower.flower_price

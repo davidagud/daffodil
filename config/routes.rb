@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   get 'logout', to: 'sessions#destroy'
-  post 'weddings/update_all'
+  post 'weddings/update_all_individual'
   post 'weddings/update_all_weddings'
   post 'weddings/copy_wedding'
   post 'weddings/send_wedding_email'
