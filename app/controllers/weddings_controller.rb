@@ -127,7 +127,7 @@ class WeddingsController < ApplicationController
       flowers_to_change.update_all(:flower_vendor => vendor, :flower_price => price)
     end
 
-    redirect_to users_path
+    redirect_to weddings_path
 
     # @weddings = Wedding.all
     # @masterflowers = Masterflower.all
