@@ -113,11 +113,11 @@ class WeddingsController < ApplicationController
 
     redirect_to users_path
 
-    @flowers.each do |flower|
-      if find_name(flower.flower_name).empty?
-        flower.update(:flower_price => 0)
-      end
-    end
+    # @flowers.each do |flower|
+    #   if find_name(flower.flower_name).empty?
+    #     flower.update(:flower_price => 0)
+    #   end
+    # end
 
     @masterflowers.each do |masterflower|
       vendor = masterflower.vendor
@@ -174,13 +174,13 @@ class WeddingsController < ApplicationController
       params.require(:wedding).permit(:wedding_name, :wedding_date, :completed, :total_price)
     end
 
-    def flower_price
-      @flower.flower_price = @masterflowers.find_price(@flower.flower_name)
-    end
+    # def flower_price
+    #   @flower.flower_price = @masterflowers.find_price(@flower.flower_name)
+    # end
 
-    def flower_vendor
-      @flower.flower_vendor = @masterflowers.find_vendor(@flower.flower_name)
-    end
+    # def flower_vendor
+    #   @flower.flower_vendor = @masterflowers.find_vendor(@flower.flower_name)
+    # end
 
     def flower_total_price
       @flower.flower_total_price = @flower.quantity * @flower.flower_price
