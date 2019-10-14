@@ -108,20 +108,38 @@ class WeddingsController < ApplicationController
   end
 
   def update_all_weddings
-    @weddings = Wedding.all
     @masterflowers = Masterflower.all
+    @flowers = Flower.all
 
-    @weddings.each do |wedding|
-      wedding.flowers.each do |flower|
-        @flower = flower
-        if find_name(@flower.flower_name).empty?
-          @flower.update(:flower_price => 0)
-        else
-          @flower.update(:flower_price => flower_price)
-          @flower.update(:flower_vendor => flower_vendor)
-        end
+    @flowers.each do |flower|
+      if find_name(flower.flower_name).empty?
+        flower.update(:flower_price => 0)
       end
     end
+
+    @masterflowers.each do |masterflower|
+      vendor = masterflower.vendor
+      name = masterflower.masterflower_name
+      price = masterflower.masterflower_price
+      flowers_to_change = @flowers.where("flower_name ilike ?", "#{name} - #{vendor}")
+      flowers_to_change.update(:flower_vendor => vendor)
+      flowers_to_change.update(:flower_price => price)
+    end
+
+    # @weddings = Wedding.all
+    # @masterflowers = Masterflower.all
+
+    # @weddings.each do |wedding|
+    #   wedding.flowers.each do |flower|
+    #     @flower = flower
+    #     if find_name(@flower.flower_name).empty?
+    #       @flower.update(:flower_price => 0)
+    #     else
+    #       @flower.update(:flower_price => flower_price)
+    #       @flower.update(:flower_vendor => flower_vendor)
+    #     end
+    #   end
+    # end
 
     redirect_to weddings_path
   end
@@ -182,7 +200,7 @@ class WeddingsController < ApplicationController
     end
 
     def find_name(flower_name)
-      @masterflowers = Masterflower.all
+      # @masterflowers = Masterflower.all
       @masterflowers.where("masterflower_name || ' - ' || vendor ilike ?", "#{flower_name}")
     end
 
