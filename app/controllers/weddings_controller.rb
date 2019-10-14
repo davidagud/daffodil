@@ -111,13 +111,11 @@ class WeddingsController < ApplicationController
     @masterflowers = Masterflower.all
     @flowers = Flower.all
 
-    redirect_to users_path
-
-    # @flowers.each do |flower|
-    #   if find_name(flower.flower_name).empty?
-    #     flower.update(:flower_price => 0)
-    #   end
-    # end
+    @flowers.each do |flower|
+      if find_name(flower.flower_name).empty?
+        flower.update(:flower_price => 0)
+      end
+    end
 
     @masterflowers.each do |masterflower|
       vendor = masterflower.vendor
@@ -126,6 +124,8 @@ class WeddingsController < ApplicationController
       flowers_to_change = @flowers.where("flower_name ilike ?", "#{name} - #{vendor}")
       flowers_to_change.update_all(:flower_vendor => vendor, :flower_price => price)
     end
+
+    redirect_to users_path
 
     # @weddings = Wedding.all
     # @masterflowers = Masterflower.all
