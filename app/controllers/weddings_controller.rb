@@ -111,11 +111,13 @@ class WeddingsController < ApplicationController
     @masterflowers = Masterflower.all
     @flowers = Flower.all
 
-    # @flowers.each do |flower|
-    #   if find_name(flower.flower_name).empty?
-    #     flower.update(:flower_price => 0)
-    #   end
-    # end
+    redirect_to users_path
+
+    @flowers.each do |flower|
+      if find_name(flower.flower_name).empty?
+        flower.update(:flower_price => 0)
+      end
+    end
 
     @masterflowers.each do |masterflower|
       vendor = masterflower.vendor
@@ -139,8 +141,6 @@ class WeddingsController < ApplicationController
     #     end
     #   end
     # end
-
-    redirect_to users_path
   end
 
   def copy_wedding
