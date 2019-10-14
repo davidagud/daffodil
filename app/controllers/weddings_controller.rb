@@ -117,14 +117,13 @@ class WeddingsController < ApplicationController
     #   end
     # end
 
-    @masterflowers.each do |masterflower|
-      vendor = masterflower.vendor
-      name = masterflower.masterflower_name
-      price = masterflower.masterflower_price
-      flowers_to_change = @flowers.where("flower_name ilike ?", "#{name} - #{vendor}")
-      flowers_to_change.update(:flower_vendor => vendor, :flower_price => price)
-      # flowers_to_change.update(:flower_price => price)
-    end
+    # @masterflowers.each do |masterflower|
+    #   vendor = masterflower.vendor
+    #   name = masterflower.masterflower_name
+    #   price = masterflower.masterflower_price
+    #   flowers_to_change = @flowers.where("flower_name ilike ?", "#{name} - #{vendor}")
+    #   flowers_to_change.update(:flower_vendor => vendor, :flower_price => price)
+    # end
 
     # @weddings = Wedding.all
     # @masterflowers = Masterflower.all
