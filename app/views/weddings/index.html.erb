@@ -13,13 +13,13 @@
 </div>
 
 <div class="container">
+  <div class="col-sm-8">
+    <%= button_to "Update All", weddings_update_all_weddings_path, class: "btn btn-secondary", id: "update-button" %>
+  </div>
+  
   <div class="row wedding-row">
     <% @weddings.each do |wedding| %>
       <%= render "wedding_card", wedding: wedding, order_item: @order_item %>
     <% end %>
-  </div>
-
-  <div class="col-sm-8">
-    <%= button_to "Update All", weddings_update_all_weddings_path, class: "btn btn-secondary", id: "update-button" %>
   </div>
 </div>
