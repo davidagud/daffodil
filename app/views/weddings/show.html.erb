@@ -101,8 +101,41 @@
         </div>
       <% end %>
       <hr id="row-separator">
-
+      
       <!-- End wedding cumulative totals -->
+
+      <!-- Start cumulative totals for day -->
+
+      <br>
+      <h4 id="recipe-wedding-cumulative-heading">Day Cumulative Totals:</h4>
+
+      <% dayarrayflowers = [] %>
+      <% @same_day_weddings.each do |wedding| %>
+        <% wedding.recipes.each do |recipe| %>
+          <% recipe.flowers.each do |flower| %>
+            <% dayarrayflowers.push({flower.flower_name => flower.quantity * recipe.recipe_quantity}) %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% daysum = Hash.new(0) %>
+
+      <% dayarrayflowers.each_with_object(daysum) do |hash, sum| %>
+        <% hash.each { |key, value| sum[key] += value } %>
+      <% end %>
+
+      <% sorteddaysum = daysum.sort{|a,b| a[0] <=> b[0] } %>
+
+      <% sorteddaysum.each do |flowername, flowersumquantity| %>
+        <hr id="row-separator">
+        <div class="row">
+          <div id="flower-row" class="col-11"><%= flowername %>:</div>
+          <div id="flower-row-number" class="col-1"><%= flowersumquantity %></div></br>
+        </div>
+      <% end %>
+      <hr id="row-separator">
+
+      <!-- End cumulative day totals -->
 
       <div class="collapse" id="collapseWeddingEdit<%= @wedding.id %>">
         <div class="well">

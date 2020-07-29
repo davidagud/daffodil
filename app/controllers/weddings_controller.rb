@@ -44,6 +44,8 @@ class WeddingsController < ApplicationController
   end
 
   def show
+    @weddings = Wedding.all
+
     @wedding = Wedding.find(params[:id])
 
     @wedding.flowers.each do |flower|
@@ -62,6 +64,8 @@ class WeddingsController < ApplicationController
     end
 
     @wedding.update(:total_price => total_price)
+
+    @same_day_weddings = @weddings.where(wedding_date: @wedding.wedding_date)
 
     respond_to do |format|
       format.html
